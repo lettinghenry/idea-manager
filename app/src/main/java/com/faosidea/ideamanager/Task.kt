@@ -1,0 +1,16 @@
+package com.faosidea.ideamanager
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
+
+
+@Entity
+data class Task(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    var title: String,
+    var description: String?, //description
+    var dueDate: Long, //timestamp (milliseconds)
+    var isCompleted: Boolean = false
+) : Serializable
