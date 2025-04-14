@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onFilterItems(state: FilterState) {
-
+        taskViewModel.setFilter(state) // or ALL, or PENDING
     }
 
 }
