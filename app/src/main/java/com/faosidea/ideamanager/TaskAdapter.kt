@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.faosidea.ideamanager.Utils.setStrikeThrough
 
 class TaskAdapter(
     private var tasks: List<Task>,
@@ -36,19 +37,21 @@ class TaskAdapter(
 
             taskTextView.text = task.title + ""
 
-            if (task.isCompleted) {
-
-            }
-
+            //Bug** feedback loop //TODO
             taskCheckbox.setOnCheckedChangeListener(null)
 
-            // Set the new listener
+            taskCheckbox.isChecked = task.isCompleted
+            taskTextView.setStrikeThrough(task.isCompleted)
+
+            // Set the listener
             taskCheckbox.setOnCheckedChangeListener { _, isChecked ->
 
-                if (isChecked) {
+                if(task.isCompleted != isChecked) {
+
                     val updatedTask = task.copy(isCompleted = isChecked)
                     onTaskCheckedChange(updatedTask)
                 }
+
             }
         }
     }

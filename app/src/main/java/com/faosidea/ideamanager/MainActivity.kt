@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
      * function to perform task status change
      */
     fun onTaskCheckedChange(task: Task) {
-        taskViewModel.toggleTaskCompleted(task)
+        taskViewModel.update(task)
     }
 
 
