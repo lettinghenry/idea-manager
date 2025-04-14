@@ -8,37 +8,57 @@
     tools:context=".CreateTaskActivity">
 
     <!-- Top App Bar -->
-    <com.google.android.material.appbar.MaterialToolbar
+    <LinearLayout
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:title="Create Task"
-        app:titleTextColor="@color/black"
         android:titleTextColor="@android:color/white"
-        app:navigationIcon="@drawable/ic_keyboard_backspace"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_keyboard_backspace"
+        app:titleTextColor="@color/black"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_keyboard_backspace"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Task"
+            android:textColor="?colorOnSurface"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
 
     <!-- Title -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Add a Title"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:boxBackgroundMode="none"
         android:layout_marginTop="50dp"
-        >
+        android:hint="Add a Title"
+        android:padding="8dp"
+        app:boxBackgroundMode="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="21sp"
-            />
+            android:textSize="21sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Content -->
@@ -46,13 +66,14 @@
         android:id="@+id/contentInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Add description"
-        app:layout_constraintTop_toBottomOf="@id/titleInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
         app:boxBackgroundMode="none"
-        app:startIconDrawable="@drawable/ic_text"
-        android:layout_marginTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleInputLayout"
+        app:startIconDrawable="@drawable/ic_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contentEditText"
@@ -67,13 +88,14 @@
         android:id="@+id/dateInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Add due date"
-        app:layout_constraintTop_toBottomOf="@id/contentInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
         app:boxBackgroundMode="none"
-        app:startIconDrawable="@drawable/ic_due_date"
-        android:layout_marginTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentInputLayout"
+        app:startIconDrawable="@drawable/ic_due_date">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dateEditText"
@@ -88,9 +110,10 @@
         android:id="@+id/createButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="8dp"
         android:text="Create"
-        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
