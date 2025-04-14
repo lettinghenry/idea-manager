@@ -1,19 +1,17 @@
-package com.faosidea.ideamanager
+package com.faosidea.ideamanager.ui
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import com.faosidea.ideamanager.data.FilterState
+import com.faosidea.ideamanager.R
+import com.faosidea.ideamanager.data.Task
+import com.faosidea.ideamanager.data.TaskViewModel
 import com.faosidea.ideamanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
