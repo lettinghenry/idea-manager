@@ -12,32 +12,30 @@
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:title="Create Task"
         android:titleTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_keyboard_backspace"
-        app:titleTextColor="@color/black"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
+        app:titleTextColor="@color/black">
 
         <ImageView
             android:id="@+id/image_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="14dp"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_keyboard_backspace"
-            />
+            android:padding="14dp"
+            android:src="@drawable/ic_keyboard_backspace" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Task"
+            android:text="@string/create_task"
             android:textColor="?colorOnSurface"
-            android:textSize="24sp"/>
+            android:textSize="23sp" />
 
     </LinearLayout>
 
@@ -47,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="Add a Title"
+        android:hint="@string/add_a_title"
         android:padding="8dp"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Add description"
+        android:hint="@string/add_description"
         android:padding="8dp"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Add due date"
+        android:hint="@string/add_due_date"
         android:padding="8dp"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="8dp"
-        android:text="Create"
+        android:text="@string/button_text_create"
+        android:textColor="?colorOnPrimarySurface"
+        app:backgroundTint="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

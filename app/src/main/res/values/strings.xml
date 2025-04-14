@@ -43,4 +43,12 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="action_all_tasks">All Tasks</string>
+    <string name="pending">Pending</string>
+    <string name="complete">Complete</string>
+    <string name="button_text_create">Create</string>
+    <string name="add_description">Add description</string>
+    <string name="add_due_date">Add due date</string>
+    <string name="add_a_title">Add a Title</string>
+    <string name="create_task">Create Task</string>
 </resources>

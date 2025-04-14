@@ -15,11 +15,12 @@
         <activity
             android:label="Create Task"
             android:name=".ui.CreateTaskActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.IDEAManager"
+            />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:label="Tasks"
             android:theme="@style/Theme.IDEAManager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,19 +5,19 @@
     <item
         android:id="@+id/action_all_tasks"
         android:orderInCategory="100"
-        android:title="All Tasks"
+        android:title="@string/action_all_tasks"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_pending_tasks"
         android:orderInCategory="100"
-        android:title="Pending"
+        android:title="@string/pending"
         app:showAsAction="never" />
 
   <item
         android:id="@+id/action_complete_tasks"
         android:orderInCategory="100"
-        android:title="Complete"
+        android:title="@string/complete"
         app:showAsAction="never" />
 
 
