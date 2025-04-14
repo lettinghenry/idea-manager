@@ -46,10 +46,12 @@
         android:id="@+id/contentInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Add details"
+        android:hint="Add description"
         app:layout_constraintTop_toBottomOf="@id/titleInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:boxBackgroundMode="none"
+        app:startIconDrawable="@drawable/ic_text"
         android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -65,10 +67,12 @@
         android:id="@+id/dateInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Add Date"
+        android:hint="Add due date"
         app:layout_constraintTop_toBottomOf="@id/contentInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:boxBackgroundMode="none"
+        app:startIconDrawable="@drawable/ic_due_date"
         android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText

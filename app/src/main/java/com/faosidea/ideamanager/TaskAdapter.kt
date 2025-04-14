@@ -1,5 +1,6 @@
 package com.faosidea.ideamanager
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,5 +55,12 @@ class TaskAdapter(
     fun updateTasks(newTasks: List<Task>) {
         tasks = newTasks
         notifyDataSetChanged()
+    }
+
+    private fun navigateToViewEditTaskActivity() {
+        // Create an Intent to start the ViewEditActivity
+//        val intent = Intent(this, ViewEditActivity::class.java)
+//         intent.putExtra("MODE", "EDIT")
+//        startActivity(intent)
     }
 }

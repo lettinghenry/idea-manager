@@ -97,12 +97,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun navigateToViewEditTaskActivity() {
-        // Create an Intent to start the ViewEditActivity
-//        val intent = Intent(this, ViewEditActivity::class.java)
-//         intent.putExtra("MODE", "EDIT")
-//        startActivity(intent)
-    }
-
-
 }
