@@ -9,12 +9,19 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.faosidea.ideamanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var taskAdapter: TaskAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,17 +30,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        binding.toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.ic_filter_variant)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // Initialize the adapter, initially with an empty list
+        taskAdapter = TaskAdapter(emptyList(), ::onTaskCheckedChange)
+        binding.recyclerView.adapter = taskAdapter
+
+        binding.fab.setOnClickListener {
+            // Handle FAB
+        }
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Create Task!", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
+
+        // Observe the tasks LiveData from the ViewModel
+        taskViewModel.filteredTasks.observe(this) { filteredList ->
+            taskAdapter.updateTasks(filteredList)
+        }
     }
+
+    /**
+     * function to perform task status change
+     */
+    fun onTaskCheckedChange(task: Task) {
+        taskViewModel.update(task)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -46,14 +71,25 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+            R.id.action_all_tasks -> {
+                onFilterItems(FilterState.ALL)
+                true
+            }
+            R.id.action_pending_tasks -> {
+                onFilterItems(FilterState.PENDING)
+                true
+            }
+            R.id.action_complete_tasks -> {
+                onFilterItems(FilterState.COMPLETED)
+                true
+            }
+            else -> false
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+
+    fun onFilterItems(state: FilterState) {
+
     }
+
 }

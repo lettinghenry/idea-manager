@@ -13,8 +13,12 @@
         android:theme="@style/Theme.IDEAManager"
         tools:targetApi="31">
         <activity
+            android:name=".CreateTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:label="Tasks"
             android:theme="@style/Theme.IDEAManager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

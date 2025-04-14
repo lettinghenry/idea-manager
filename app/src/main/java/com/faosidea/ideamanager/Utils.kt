@@ -1,6 +1,7 @@
 package com.faosidea.ideamanager
 
 object Utils {
+
     /**
      * An elaborate check for string nullness and emptiness
      */
