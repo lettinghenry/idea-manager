@@ -1,4 +1,4 @@
-package com.faosidea.ideamanager
+package com.faosidea.ideamanager.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -1,4 +1,4 @@
-package com.faosidea.ideamanager
+package com.faosidea.ideamanager.ui
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -10,8 +10,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.faosidea.ideamanager.R
+import com.faosidea.ideamanager.data.Task
+import com.faosidea.ideamanager.data.TaskViewModel
+import com.faosidea.ideamanager.Utils
 import com.faosidea.ideamanager.databinding.ActivityCreateTaskBinding
-import com.faosidea.ideamanager.databinding.ActivityMainBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
