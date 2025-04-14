@@ -1,5 +1,6 @@
 package com.faosidea.ideamanager
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -38,13 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
             // Handle FAB
+            navigateToCreateTaskActivity()
         }
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Create Task!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
 
         // Observe the tasks LiveData from the ViewModel
         taskViewModel.filteredTasks.observe(this) { filteredList ->
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
      * function to perform task status change
      */
     fun onTaskCheckedChange(task: Task) {
-        taskViewModel.update(task)
+        taskViewModel.toggleTaskCompleted(task)
     }
 
 
@@ -87,9 +84,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * function to filter tasks from the toolbar menu
+     */
     fun onFilterItems(state: FilterState) {
         taskViewModel.setFilter(state) // or ALL, or PENDING
     }
+
+    private fun navigateToCreateTaskActivity() {
+        val intent = Intent(this, CreateTaskActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun navigateToViewEditTaskActivity() {
+        // Create an Intent to start the ViewEditActivity
+//        val intent = Intent(this, ViewEditActivity::class.java)
+//         intent.putExtra("MODE", "EDIT")
+//        startActivity(intent)
+    }
+
 
 }
