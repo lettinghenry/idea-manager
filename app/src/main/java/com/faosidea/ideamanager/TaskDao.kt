@@ -28,7 +28,7 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTaskById(taskId: Long): Task?
 
-    //Queries for filtering directly (alternative to ViewModel filtering)
+    //Query for filtering
     @Query("SELECT * FROM tasks WHERE isCompleted = :completed ORDER BY dueDate ASC")
     fun getTasksByCompletion(completed: Boolean): LiveData<List<Task>>
 }
