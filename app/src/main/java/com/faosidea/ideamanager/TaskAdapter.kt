@@ -35,6 +35,7 @@ class TaskAdapter(
         fun bind(task: Task, onTaskCheckedChange: (Task) -> Unit) {
 
             taskTextView.text = task.title + ""
+
             if (task.isCompleted) {
 
             }

@@ -10,14 +10,13 @@
         android:id="@+id/task_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
+        tools:checked="true"
         />
 
     <TextView
         android:id="@+id/task_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         tools:text="Task title"
         android:textSize="18sp"
         android:textColor="?colorOnSurface"

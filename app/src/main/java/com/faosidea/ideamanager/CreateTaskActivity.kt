@@ -52,8 +52,8 @@ class CreateTaskActivity : AppCompatActivity() {
             //validate before insert
             if (validateText(binding.titleEditText) && validateText(binding.dateEditText)) {
 
-                val title = ""
-                val description = ""
+                val title = binding.titleEditText.text.toString()
+                val description = binding.contentEditText.text.toString()
                 val dueDate = selectedDate
 
                 taskViewModel.insert(
