@@ -100,8 +100,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingTop="16dp"
-        android:background="?colorSecondaryVariant"
+        android:paddingTop="20dp"
+        android:background="?customOverlayBackground"
         >
         <!-- Complete Button -->
         <com.google.android.material.button.MaterialButton

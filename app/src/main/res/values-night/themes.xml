@@ -3,5 +3,6 @@
     <style name="Base.Theme.IDEAManager" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
          <item name="colorPrimary">@color/fao_blue</item>
+         <item name="customOverlayBackground">@color/transparent_light_overlay</item>
     </style>
 </resources>
