@@ -56,6 +56,7 @@ The app follows a basic MVVM (Model-View-ViewModel) architecture, promoting sepa
 *   **Error Handling:** Add error handling (e.g., try-catch blocks, displaying error messages to the user) for potential issues like data access failures.
 *   **Notifications:** Implement notifications for taks that are almost due.
 *   **UI Enhancements:**
+*   **Architecture IMprovement:** Migrate from XML-based layout to Jetpack Compose.
 *   **Empty state handling** displaying a message when there are no tasks.
 *   **Testing:** Write unit or integration tests to ensure the app's functionality is correct and robust.
 
