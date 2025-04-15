@@ -100,7 +100,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingTop="20dp"
+        android:paddingTop="28dp"
         android:background="?customOverlayBackground"
         >
         <!-- Complete Button -->

@@ -12,7 +12,7 @@ import androidx.room.Update
 interface TaskDao {
 
     // Return Live Tasks
-    @Query("SELECT * FROM tasks ORDER BY dueDate ASC")
+    @Query("SELECT * FROM tasks ORDER BY isCompleted ASC, dueDate ASC")
     fun getAllTasks(): LiveData<List<Task>>
 
     //Return Id upon successful insert
