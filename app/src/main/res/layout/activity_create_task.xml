@@ -108,8 +108,8 @@
         android:layout_margin="16dp"
         android:padding="8dp"
         android:text="@string/button_text_create"
-        android:textColor="?colorOnPrimarySurface"
-        app:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnSurface"
+        app:backgroundTint="@color/fao_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
