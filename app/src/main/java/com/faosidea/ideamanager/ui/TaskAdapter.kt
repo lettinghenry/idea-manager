@@ -1,5 +1,7 @@
 package com.faosidea.ideamanager.ui
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +18,18 @@ class TaskAdapter(
 ) :
     RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
+    lateinit var context: Context
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
+        context = parent.context
+        val itemView = LayoutInflater.from(context)
             .inflate(R.layout.item_task, parent, false)
         return TaskViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = tasks[position]
-        holder.bind(task, onTaskCheckedChange)
+        holder.bind(context, task, onTaskCheckedChange)
     }
 
     override fun getItemCount(): Int = tasks.size
@@ -34,26 +39,31 @@ class TaskAdapter(
         private val taskTextView: TextView = itemView.findViewById(R.id.task_text)
         private val taskCheckbox: CheckBox = itemView.findViewById(R.id.task_checkbox)
 
-        fun bind(task: Task, onTaskCheckedChange: (Task) -> Unit) {
+        fun bind(context: Context, task: Task, onTaskCheckedChange: (Task) -> Unit) {
 
             taskTextView.text = task.title + ""
 
-            //Bug** feedback loop //TODO
+            //remove the checkchange listener before changing check state to avoid feedback loop
             taskCheckbox.setOnCheckedChangeListener(null)
 
             taskCheckbox.isChecked = task.isCompleted
             taskTextView.setStrikeThrough(task.isCompleted)
 
-            // Set the listener
+            // Set the checkchange listener
             taskCheckbox.setOnCheckedChangeListener { _, isChecked ->
-
-                if(task.isCompleted != isChecked) {
-
+                if (task.isCompleted != isChecked) {
                     val updatedTask = task.copy(isCompleted = isChecked)
                     onTaskCheckedChange(updatedTask)
                 }
-
             }
+
+            taskTextView.setOnClickListener {
+                // Create an Intent to start the ViewEditActivity
+                val intent = Intent(context, ViewEditActivity::class.java)
+                intent.putExtra("TASK_ID", task.id)
+                context.startActivity(intent)
+            }
+
         }
     }
 
@@ -62,10 +72,5 @@ class TaskAdapter(
         notifyDataSetChanged()
     }
 
-    private fun navigateToViewEditTaskActivity() {
-        // Create an Intent to start the ViewEditActivity
-//        val intent = Intent(this, ViewEditActivity::class.java)
-//         intent.putExtra("MODE", "EDIT")
-//        startActivity(intent)
-    }
+
 }

@@ -13,11 +13,13 @@
         android:theme="@style/Theme.IDEAManager"
         tools:targetApi="31">
         <activity
-            android:label="Create Task"
+            android:name=".ui.ViewEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.CreateTaskActivity"
             android:exported="false"
-            android:theme="@style/Theme.IDEAManager"
-            />
+            android:label="Create Task"
+            android:theme="@style/Theme.IDEAManager" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

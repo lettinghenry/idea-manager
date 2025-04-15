@@ -51,4 +51,11 @@
     <string name="add_due_date">Add due date</string>
     <string name="add_a_title">Add a Title</string>
     <string name="create_task">Create Task</string>
+    <string name="create_task_title">Create Task</string>
+    <string name="view_and_edit">View and Edit</string>
+    <string name="mark_completed">Mark Completed</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_deletion">Confirm Deletion</string>
+    <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
+    <string name="cancel">Cancel</string>
 </resources>

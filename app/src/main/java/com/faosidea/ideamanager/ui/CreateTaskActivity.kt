@@ -14,6 +14,7 @@ import com.faosidea.ideamanager.R
 import com.faosidea.ideamanager.data.Task
 import com.faosidea.ideamanager.data.TaskViewModel
 import com.faosidea.ideamanager.Utils
+import com.faosidea.ideamanager.Utils.validateText
 import com.faosidea.ideamanager.databinding.ActivityCreateTaskBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -90,54 +91,11 @@ class CreateTaskActivity : AppCompatActivity() {
 
     }
 
-
-    /**
-     * validate input
-     */
-    fun validateText(textView: TextView): Boolean {
-        val text = (textView.text.toString() + "")
-        val isValid = !Utils.isEmpty(text)
-
-        if (!isValid) {
-            textView.error = "invalid input length!"
-        }
-        return isValid
-
-    }
-
     /**
      * due date selection from calendar
      */
     fun selectDate() {
-
-        val builder = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select Due date")
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-            .setCalendarConstraints(
-                CalendarConstraints.Builder()
-                    .setValidator(DateValidatorPointForward.now())
-                    .build()
-            )
-
-        val picker = builder.build()
-
-        picker.addOnPositiveButtonClickListener { millis ->
-            Log.d("DatePicker", "Selected millis: $millis")
-            selectedDate = millis
-
-            //update UI
-            binding.dateEditText.setText(formatDate(millis))
-        }
-
-        picker.show(supportFragmentManager, "DATE_PICKER")
-    }
-
-    // Helper function to format milliseconds into a readable date string
-    private fun formatDate(milliseconds: Long): String {
-        val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-        val formated = sdf.format(Date(milliseconds))
-        Log.d("DatePicker", "Formated date :: $formated")
-        return formated
+        selectedDate = Utils.selectDate(binding.dateEditText, this@CreateTaskActivity)
     }
 
 
