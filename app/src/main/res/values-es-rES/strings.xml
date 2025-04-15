@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IDEA Manager</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+    <string name="action_all_tasks">Todas las Tareas</string>
+    <string name="pending">Pendiente</string>
+    <string name="complete">Completo</string>
+    <string name="button_text_create">Crear</string>
+    <string name="add_description">Agregar descripción</string>
+    <string name="add_due_date">Agregar fecha de vencimiento</string>
+    <string name="add_a_title">Agregar un Título</string>
+    <string name="create_task">Crear Tarea</string>
+    <string name="create_task_title">Crear Tarea</string>
+    <string name="view_and_edit">" Ver y Editar"</string>
+    <string name="mark_completed">Marcar como Completado</string>
+    <string name="delete">Eliminar</string>
+    <string name="confirm_deletion">Confirmar Eliminación</string>
+    <string name="are_you_sure_you_want_to_delete">" ¿Estás seguro de que quieres eliminar?"</string>
+    <string name="cancel">Cancelar</string>
+    <string name="tasks">Tareas</string>
+</resources>

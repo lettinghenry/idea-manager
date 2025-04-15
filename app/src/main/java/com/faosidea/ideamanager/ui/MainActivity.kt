@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.ic_filter_variant)
-        supportActionBar?.title = "Tasks"
+        supportActionBar?.title = getString(R.string.tasks)
 
         // Initialize the adapter, initially with an empty list
         taskAdapter = TaskAdapter(emptyList(), ::onTaskCheckedChange)
