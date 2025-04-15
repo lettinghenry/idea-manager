@@ -2,7 +2,7 @@ package com.faosidea.ideamanager.data
 
 import androidx.lifecycle.LiveData
 
-class TaskRepository (private val taskDao: TaskDao) {
+class TaskRepository(private val taskDao: TaskDao) {
 
     val allTasks: LiveData<List<Task>> = taskDao.getAllTasks()
 
@@ -18,7 +18,11 @@ class TaskRepository (private val taskDao: TaskDao) {
         taskDao.deleteTask(task)
     }
 
-    suspend fun getTaskById(taskId: Long) : Task? {
+    suspend fun getTaskById(taskId: Long): Task? {
         return taskDao.getTaskById(taskId)
+    }
+
+    suspend fun getTasksDueWithinDay(now: Long, nextDay: Long): List<Task> {
+        return taskDao.getTasksDueWithinDay(now, nextDay)
     }
 }

@@ -31,4 +31,8 @@ interface TaskDao {
     //Query for filtering
     @Query("SELECT * FROM tasks WHERE isCompleted = :completed ORDER BY dueDate ASC")
     fun getTasksByCompletion(completed: Boolean): LiveData<List<Task>>
+
+    //For CoroutineWorker
+    @Query("SELECT * FROM tasks WHERE dueDate BETWEEN :now AND :nextDay")
+    suspend fun getTasksDueWithinDay(now: Long, nextDay: Long): List<Task>
 }
