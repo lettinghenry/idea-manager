@@ -1,10 +1,13 @@
 package com.faosidea.ideamanager.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,6 +26,8 @@ class ViewEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityViewEditBinding
     val taskViewModel: TaskViewModel by viewModels()
     var selectedDate = 0L
+     var taskId = 0L
+     var completed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +41,15 @@ class ViewEditActivity : AppCompatActivity() {
         }
 
         //get the ID
-        val taskId = intent.getLongExtra("TASK_ID", 0)
+        taskId = intent.getLongExtra("TASK_ID", 0)
         try {
             taskViewModel.getTaskById(taskId).observe(this) { task ->
                 if (task != null) {
+                    completed = task.isCompleted
                     binding.titleInputLayout.setText(task.title)
                     binding.contentInputLayout.setText(task.description)
                     binding.dateInputLayout.setText(Utils.formatDate(task.dueDate))
-                    markAllViewsComplete(task.isCompleted)
+                    markAllViewsComplete(completed)
 
                     //set up listeners
                     setUpUIListeners(task)
@@ -87,6 +93,10 @@ class ViewEditActivity : AppCompatActivity() {
         binding.dateInputLayout.setStrikeThrough(isComplete)
         binding.contentInputLayout.setStrikeThrough(isComplete)
 
+        if(isComplete){
+            binding.completeButton.visibility = View.GONE
+        }
+
     }
 
     /**
@@ -95,10 +105,7 @@ class ViewEditActivity : AppCompatActivity() {
     fun handleMarkComplete(task: Task) {
 
         taskViewModel.toggleTaskCompleted(task)
-        binding.completeButton.isEnabled = false
-        binding.contentInputLayout.isEnabled = false
-        binding.titleInputLayout.isEnabled = false
-        binding.dateInputLayout.isEnabled = false
+        binding.completeButton.visibility = View.GONE
 
     }
 
@@ -108,7 +115,8 @@ class ViewEditActivity : AppCompatActivity() {
     fun handleDelete(task: Task) {
         showDeleteConfirmationDialog(this) {
            taskViewModel.delete(task)
-            Toast.makeText(this, "Edited!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
+            onBackPressed()
         }
     }
 
@@ -127,11 +135,13 @@ class ViewEditActivity : AppCompatActivity() {
             val description = binding.contentInputLayout.text.toString()
             val dueDate = selectedDate
 
-            taskViewModel.insert(
+            taskViewModel.update(
                 Task(
+                    id = taskId ,
                     title = title,
                     description = description,
-                    dueDate = dueDate
+                    dueDate = dueDate,
+                    isCompleted = completed
                 )
             )
             //show update
