@@ -20,4 +20,6 @@
     <string name="are_you_sure_you_want_to_delete">" ¿Estás seguro de que quieres eliminar?"</string>
     <string name="cancel">Cancelar</string>
     <string name="tasks">Tareas</string>
+    <string name="idea_manager_authentication">Autenticación de IDEA Manager</string>
+    <string name="use_your_fingerprint_or_face">Usa tu huella dactilar o rostro</string>
 </resources>

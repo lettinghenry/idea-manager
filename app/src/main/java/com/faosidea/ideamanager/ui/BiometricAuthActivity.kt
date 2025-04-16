@@ -6,6 +6,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.faosidea.ideamanager.R
 import java.util.concurrent.Executor
 
 class BiometricAuthActivity : FragmentActivity() {
@@ -26,10 +27,10 @@ class BiometricAuthActivity : FragmentActivity() {
 
     private fun showBiometricPrompt() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("IDEA Manager Authentication")
-            .setSubtitle("Use your fingerprint or face")
+            .setTitle(getString(R.string.idea_manager_authentication))
+            .setSubtitle(getString(R.string.use_your_fingerprint_or_face))
             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setNegativeButtonText("Cancel")
+            .setNegativeButtonText(getString(R.string.cancel))
             .build()
 
         val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {

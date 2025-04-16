@@ -59,4 +59,6 @@
     <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
     <string name="cancel">Cancel</string>
     <string name="tasks">Tasks</string>
+    <string name="idea_manager_authentication">IDEA Manager Authentication</string>
+    <string name="use_your_fingerprint_or_face">Use your fingerprint or face</string>
 </resources>
