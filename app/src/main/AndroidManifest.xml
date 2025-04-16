@@ -14,11 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IDEAManager"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.ViewEditActivity"
             android:exported="false"
-            android:theme="@style/Theme.IDEAManager"
-            />
+            android:theme="@style/Theme.IDEAManager" />
         <activity
             android:name=".ui.CreateTaskActivity"
             android:exported="false"
@@ -27,7 +27,11 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.IDEAManager">
+            android:theme="@style/Theme.IDEAManager" />
+
+        <activity
+            android:name=".ui.BiometricAuthActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
