@@ -195,4 +195,51 @@ object Utils {
         suspend fun getTaskById(taskId: Long): Task?
     }
 
+    class FakeTaskDao : TaskDao {
+
+        private val tasks = mutableListOf<Task>()
+        private val tasksLiveData = MutableLiveData<List<Task>>()
+
+        init {
+            tasksLiveData.value = tasks
+        }
+
+        override fun getAllTasks(): LiveData<List<Task>> = tasksLiveData
+
+        override suspend fun insertTask(task: Task) {
+            tasks.add(task)
+            refresh()
+        }
+
+        override suspend fun updateTask(task: Task) {
+            val index = tasks.indexOfFirst { it.id == task.id }
+            if (index != -1) {
+                tasks[index] = task
+                refresh()
+            }
+        }
+
+        override suspend fun deleteTask(task: Task) {
+            tasks.removeIf { it.id == task.id }
+            refresh()
+        }
+
+        override suspend fun getTaskById(taskId: Long): Task? {
+            return tasks.find { it.id == taskId }
+        }
+
+        override fun getTasksByCompletion(completed: Boolean): LiveData<List<Task>> {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun getTasksDueWithinDay(now: Long, nextDay: Long): List<Task> {
+            return tasks.filter { it.dueDate in now..nextDay }
+        }
+
+        private fun refresh() {
+            tasksLiveData.postValue(tasks.toList())
+        }
+    }
+
+
 }
