@@ -14,8 +14,13 @@ enum class FilterState { ALL, PENDING, COMPLETED }
 
 open class TaskViewModel(
     application: Application,
-     val repository: Utils.ITaskRepository = TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
+    private val repository: Utils.ITaskRepository = TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
 ) : AndroidViewModel(application) {
+
+    constructor(application: Application) : this(
+        application,
+        TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
+    )
 
      val _allTasks: LiveData<List<Task>>
 

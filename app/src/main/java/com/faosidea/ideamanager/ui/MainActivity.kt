@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     val taskViewModel: TaskViewModel by viewModels()
     private lateinit var taskAdapter: TaskAdapter
