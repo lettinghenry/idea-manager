@@ -61,9 +61,8 @@ object Utils {
     /**
      *  date selection from calendar
      */
-    fun selectDate(view: View, activity: FragmentActivity): Long {
+    fun selectDate(view: View, activity: FragmentActivity,onDateSelected: (Long) -> Unit) {
 
-        var selectedDate = 0L
         val builder = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select Due date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -77,14 +76,14 @@ object Utils {
 
         picker.addOnPositiveButtonClickListener { millis ->
             Log.d("DatePicker", "Selected millis :: $millis")
-            selectedDate = millis
 
             //update UI
             (view as TextView).text = formatDate(millis)
+
+            onDateSelected(millis)
         }
 
         picker.show(activity.supportFragmentManager, "DATE_PICKER")
-        return selectedDate
     }
 
     // Helper function to format milliseconds into a readable date string
@@ -185,6 +184,10 @@ object Utils {
         override suspend fun getTaskById(taskId: Long): Task? {
             return tasks.find { it.id == taskId }
         }
+
+        override fun getTaskByIdLive(taskId: Long): LiveData<Task?> {
+            TODO("Not yet implemented")
+        }
     }
 
     interface ITaskRepository {
@@ -193,6 +196,7 @@ object Utils {
         suspend fun update(task: Task)
         suspend fun delete(task: Task)
         suspend fun getTaskById(taskId: Long): Task?
+         fun getTaskByIdLive(taskId: Long): LiveData<Task?>
     }
 
     class FakeTaskDao : TaskDao {
@@ -226,6 +230,10 @@ object Utils {
 
         override suspend fun getTaskById(taskId: Long): Task? {
             return tasks.find { it.id == taskId }
+        }
+
+        override fun getTaskByIdLive(taskId: Long): LiveData<Task?> {
+            TODO("Not yet implemented")
         }
 
         override fun getTasksByCompletion(completed: Boolean): LiveData<List<Task>> {

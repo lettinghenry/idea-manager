@@ -95,7 +95,9 @@ class CreateTaskActivity : AppCompatActivity() {
      * due date selection from calendar
      */
     fun selectDate() {
-        selectedDate = Utils.selectDate(binding.dateEditText, this@CreateTaskActivity)
+       Utils.selectDate(binding.dateEditText, this@CreateTaskActivity){ selectedCalendarDate ->
+           selectedDate = selectedCalendarDate
+        }
     }
 
 

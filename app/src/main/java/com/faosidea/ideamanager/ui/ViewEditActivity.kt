@@ -43,7 +43,7 @@ class ViewEditActivity : AppCompatActivity() {
         //get the ID
         taskId = intent.getLongExtra("TASK_ID", 0)
         try {
-            taskViewModel.getTaskById(taskId).observe(this) { task ->
+            taskViewModel.getTaskByIdLive(taskId).observe(this) { task ->
                 if (task != null) {
                     completed = task.isCompleted
                     binding.titleInputLayout.setText(task.title)
@@ -103,9 +103,8 @@ class ViewEditActivity : AppCompatActivity() {
      * to handle the marking of a task as complete from within the activity
      */
     fun handleMarkComplete(task: Task) {
-
-        taskViewModel.toggleTaskCompleted(task)
-        binding.completeButton.visibility = View.GONE
+        //TODO bug fix - logic should be handled by observer upon db update
+        taskViewModel.update(task.copy(isCompleted = true))
 
     }
 
@@ -116,15 +115,20 @@ class ViewEditActivity : AppCompatActivity() {
         showDeleteConfirmationDialog(this) {
            taskViewModel.delete(task)
             Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show()
-            onBackPressed()
+            super.onBackPressed()//prevent additional action on the delete scenario
         }
     }
 
     /**
      * due date selection from calendar
      */
+    /**
+     * due date selection from calendar
+     */
     fun selectDate() {
-        selectedDate = Utils.selectDate(binding.dateInputLayout, this@ViewEditActivity)
+        Utils.selectDate(binding.dateInputLayout, this@ViewEditActivity){ selectedCalendarDate ->
+            selectedDate = selectedCalendarDate
+        }
     }
 
 

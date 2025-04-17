@@ -23,6 +23,10 @@ open class TaskRepository(private val taskDao: TaskDao):Utils.ITaskRepository {
         return taskDao.getTaskById(taskId)
     }
 
+    override fun getTaskByIdLive(taskId: Long): LiveData<Task?> {
+        return taskDao.getTaskByIdLive(taskId)
+    }
+
     suspend fun getTasksDueWithinDay(now: Long, nextDay: Long): List<Task> {
         return taskDao.getTasksDueWithinDay(now, nextDay)
     }

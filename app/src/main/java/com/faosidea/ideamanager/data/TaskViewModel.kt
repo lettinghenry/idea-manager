@@ -14,7 +14,11 @@ enum class FilterState { ALL, PENDING, COMPLETED }
 
 open class TaskViewModel(
     application: Application,
-    private val repository: Utils.ITaskRepository = TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
+    private val repository: Utils.ITaskRepository = TaskRepository(
+        IdeaDatabase.getDatabase(
+            application
+        ).taskDao()
+    )
 ) : AndroidViewModel(application) {
 
     constructor(application: Application) : this(
@@ -22,10 +26,10 @@ open class TaskViewModel(
         TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
     )
 
-     val _allTasks: LiveData<List<Task>>
+    val _allTasks: LiveData<List<Task>>
 
     // Filter state
-     val _filterState = MutableLiveData(FilterState.ALL)
+    val _filterState = MutableLiveData(FilterState.ALL)
     val filterState: LiveData<FilterState> = _filterState
 
     // A MediatorLiveData to combine allTasks and filterState
@@ -44,7 +48,7 @@ open class TaskViewModel(
         }
     }
 
-     fun filterTasks(tasks: List<Task>?, filter: FilterState): List<Task> {
+    fun filterTasks(tasks: List<Task>?, filter: FilterState): List<Task> {
         return tasks?.filter {
             when (filter) {
                 FilterState.ALL -> true
@@ -87,5 +91,10 @@ open class TaskViewModel(
             // Use postValue from background
         }
         return result
+    }
+
+    // fetch a single task for editing in ViewModel (Live)
+    fun getTaskByIdLive(taskId: Long): LiveData<Task?> {
+        return repository.getTaskByIdLive(taskId)
     }
 }

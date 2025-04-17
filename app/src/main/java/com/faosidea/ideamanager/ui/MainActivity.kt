@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
      * Schedule reminder to check after a day
      */
     fun scheduleReminderWorker() {
-        val workRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.DAYS)
+        val workRequest = PeriodicWorkRequestBuilder<ReminderWorker>(1, TimeUnit.MINUTES)
             .build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
