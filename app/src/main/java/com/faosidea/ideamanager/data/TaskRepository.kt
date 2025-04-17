@@ -1,24 +1,25 @@
 package com.faosidea.ideamanager.data
 
 import androidx.lifecycle.LiveData
+import com.faosidea.ideamanager.Utils
 
-class TaskRepository(private val taskDao: TaskDao) {
+open class TaskRepository(private val taskDao: TaskDao):Utils.ITaskRepository {
 
-    val allTasks: LiveData<List<Task>> = taskDao.getAllTasks()
+    override val allTasks: LiveData<List<Task>> = taskDao.getAllTasks()
 
-    suspend fun insert(task: Task) {
+    override suspend fun insert(task: Task) {
         taskDao.insertTask(task)
     }
 
-    suspend fun update(task: Task) {
+    override suspend fun update(task: Task) {
         taskDao.updateTask(task)
     }
 
-    suspend fun delete(task: Task) {
+    override suspend fun delete(task: Task) {
         taskDao.deleteTask(task)
     }
 
-    suspend fun getTaskById(taskId: Long): Task? {
+    override suspend fun getTaskById(taskId: Long): Task? {
         return taskDao.getTaskById(taskId)
     }
 

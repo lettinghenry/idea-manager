@@ -9,12 +9,21 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.faosidea.ideamanager.data.Task
+import com.faosidea.ideamanager.data.TaskDao
+import com.faosidea.ideamanager.data.TaskRepository
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 object Utils {
 
@@ -114,6 +123,76 @@ object Utils {
             textView.error = "invalid input length!"
         }
         return isValid
+    }
+
+
+    /**
+     * Helper function to help in tests
+     */
+    fun <T> LiveData<T>.getOrAwaitValue(): T {
+        var data: T? = null
+        val latch = CountDownLatch(1)
+
+        val observer = object : Observer<T> {
+            override fun onChanged(t: T) {
+                data = t
+                latch.countDown()
+                this@getOrAwaitValue.removeObserver(this)
+            }
+        }
+
+        this.observeForever(observer)
+
+        if (!latch.await(2, TimeUnit.SECONDS)) {
+            throw TimeoutException("LiveData value was never set.")
+        }
+
+        return data!!
+    }
+
+
+    class FakeTaskRepository : ITaskRepository {
+
+        private val tasks = mutableListOf<Task>()
+        private val taskList = MutableLiveData<List<Task>>()
+
+        override val allTasks: LiveData<List<Task>> get() = taskList
+
+        fun setTasks(taskItems: List<Task>) {
+            tasks.clear()
+            tasks.addAll(taskItems)
+            taskList.value = taskItems
+        }
+
+        override suspend fun insert(task: Task) {
+            tasks.add(task)
+            taskList.postValue(tasks.toList())
+        }
+
+        override suspend fun update(task: Task) {
+            val index = tasks.indexOfFirst { it.id == task.id }
+            if (index != -1) {
+                tasks[index] = task
+                taskList.postValue(tasks.toList())
+            }
+        }
+
+        override suspend fun delete(task: Task) {
+            tasks.removeIf { it.id == task.id }
+            taskList.postValue(tasks.toList())
+        }
+
+        override suspend fun getTaskById(taskId: Long): Task? {
+            return tasks.find { it.id == taskId }
+        }
+    }
+
+    interface ITaskRepository {
+        val allTasks: LiveData<List<Task>>
+        suspend fun insert(task: Task)
+        suspend fun update(task: Task)
+        suspend fun delete(task: Task)
+        suspend fun getTaskById(taskId: Long): Task?
     }
 
 }

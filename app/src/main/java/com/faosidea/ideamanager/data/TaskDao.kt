@@ -17,7 +17,7 @@ interface TaskDao {
 
     //Return Id upon successful insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(task: Task): Long
+    suspend fun insertTask(task: Task)
 
     @Update
     suspend fun updateTask(task: Task)

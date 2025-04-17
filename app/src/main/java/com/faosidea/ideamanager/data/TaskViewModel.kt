@@ -6,26 +6,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.faosidea.ideamanager.Utils
 import kotlinx.coroutines.launch
 
 //enum to hold possible filter states that will be selected by the UI
 enum class FilterState { ALL, PENDING, COMPLETED }
 
-class TaskViewModel(application: Application) : AndroidViewModel(application) {
+open class TaskViewModel(
+    application: Application,
+     val repository: Utils.ITaskRepository = TaskRepository(IdeaDatabase.getDatabase(application).taskDao())
+) : AndroidViewModel(application) {
 
-    private val repository: TaskRepository
-    private val _allTasks: LiveData<List<Task>>
+     val _allTasks: LiveData<List<Task>>
 
     // Filter state
-    private val _filterState = MutableLiveData(FilterState.ALL)
+     val _filterState = MutableLiveData(FilterState.ALL)
     val filterState: LiveData<FilterState> = _filterState
 
     // A MediatorLiveData to combine allTasks and filterState
     val filteredTasks = MediatorLiveData<List<Task>>()
 
     init {
-        val taskDao = IdeaDatabase.getDatabase(application).taskDao()
-        repository = TaskRepository(taskDao)
+
         _allTasks = repository.allTasks
 
         // Add sources to the MediatorLiveData
@@ -37,7 +39,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun filterTasks(tasks: List<Task>?, filter: FilterState): List<Task> {
+     fun filterTasks(tasks: List<Task>?, filter: FilterState): List<Task> {
         return tasks?.filter {
             when (filter) {
                 FilterState.ALL -> true

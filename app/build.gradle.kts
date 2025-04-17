@@ -49,9 +49,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.biometric.v140alpha02)
+    implementation(libs.core.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
