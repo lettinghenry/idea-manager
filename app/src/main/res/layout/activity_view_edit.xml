@@ -89,6 +89,8 @@
         android:drawableStart="@drawable/ic_due_date"
         android:drawablePadding="8dp"
         android:hint="@string/add_due_date"
+        android:focusable="false"
+        android:editable="false"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

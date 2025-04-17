@@ -1,13 +1,17 @@
 package com.faosidea.ideamanager
 
 import android.app.Activity
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +19,7 @@ import androidx.lifecycle.Observer
 import com.faosidea.ideamanager.data.Task
 import com.faosidea.ideamanager.data.TaskDao
 import com.faosidea.ideamanager.data.TaskRepository
+import com.faosidea.ideamanager.ui.MainActivity
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -247,6 +252,31 @@ object Utils {
         private fun refresh() {
             tasksLiveData.postValue(tasks.toList())
         }
+    }
+
+
+
+     fun showNotification(context:Context) {
+         val applicationContext = context.applicationContext
+        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(applicationContext, "task_channel")
+            .setSmallIcon(R.drawable.ic_clock_check_outline)
+            .setContentTitle("Upcoming Tasks")
+            .setContentText("You have upcoming tasks within the day")
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(1, notification)
     }
 
 

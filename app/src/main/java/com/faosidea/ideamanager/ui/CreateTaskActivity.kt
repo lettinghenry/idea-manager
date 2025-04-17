@@ -14,6 +14,7 @@ import com.faosidea.ideamanager.R
 import com.faosidea.ideamanager.data.Task
 import com.faosidea.ideamanager.data.TaskViewModel
 import com.faosidea.ideamanager.Utils
+import com.faosidea.ideamanager.Utils.showNotification
 import com.faosidea.ideamanager.Utils.validateText
 import com.faosidea.ideamanager.databinding.ActivityCreateTaskBinding
 import com.google.android.material.datepicker.CalendarConstraints
@@ -45,6 +46,8 @@ class CreateTaskActivity : AppCompatActivity() {
         //call to initialize listeners
         setUpUI()
 
+        //test.. TODO remove
+//        showNotification(this@CreateTaskActivity)
     }
 
 
@@ -95,8 +98,8 @@ class CreateTaskActivity : AppCompatActivity() {
      * due date selection from calendar
      */
     fun selectDate() {
-       Utils.selectDate(binding.dateEditText, this@CreateTaskActivity){ selectedCalendarDate ->
-           selectedDate = selectedCalendarDate
+        Utils.selectDate(binding.dateEditText, this@CreateTaskActivity) { selectedCalendarDate ->
+            selectedDate = selectedCalendarDate
         }
     }
 
