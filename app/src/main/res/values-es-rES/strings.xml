@@ -23,4 +23,6 @@
     <string name="idea_manager_authentication">Autenticación de IDEA Manager</string>
     <string name="use_your_fingerprint_or_face">Usa tu huella dactilar o rostro</string>
     <string name="no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task">"Sin tareas aún \n\n Pulsa el botón '+' \n para agregar una nueva tarea. "</string>
+    <string name="you_have_no_pending_tasks">No tienes tareas pendientes por ahora.</string>
+    <string name="no_tasks_have_been_completed">Aún no has completado ninguna tarea.</string>
 </resources>

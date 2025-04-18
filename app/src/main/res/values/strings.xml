@@ -62,4 +62,6 @@
     <string name="idea_manager_authentication">IDEA Manager Authentication</string>
     <string name="use_your_fingerprint_or_face">Use your fingerprint or face</string>
     <string name="no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task">No Tasks Yet \n\n Click on the \'+\' Button \n to add a new task.</string>
+    <string name="you_have_no_pending_tasks">You have no Pending tasks.</string>
+    <string name="no_tasks_have_been_completed">No tasks have been completed.</string>
 </resources>

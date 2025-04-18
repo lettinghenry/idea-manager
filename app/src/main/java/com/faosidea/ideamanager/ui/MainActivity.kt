@@ -76,17 +76,18 @@ class MainActivity : AppCompatActivity() {
             var emptyStateText =
                 getString(R.string.no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task)
 
-            when (taskViewModel._filterState.value) {
-                FilterState.ALL -> {
+            when (taskViewModel._filterState.value.toString()
+            ) {
+                FilterState.ALL.toString() -> {
                     //do nothing, rely on the default
                 }
 
-                FilterState.PENDING -> {
-
+                FilterState.PENDING.toString() -> {
+                    emptyStateText = getString(R.string.you_have_no_pending_tasks)
                 }
 
-                FilterState.COMPLETED -> {
-
+                FilterState.COMPLETED.toString() -> {
+                    emptyStateText = getString(R.string.no_tasks_have_been_completed)
                 }
 
                 null -> {
