@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         // Observe the tasks LiveData from the ViewModel
         taskViewModel.filteredTasks.observe(this) { filteredList ->
             taskAdapter.updateTasks(filteredList)
+
+            //empty view toggle
+            toggleEmptyState(filteredList.isEmpty())
         }
 
         //create notification channel
@@ -59,6 +63,50 @@ class MainActivity : AppCompatActivity() {
 
         //Start reminder worker
         scheduleReminderWorker()
+    }
+
+    fun toggleEmptyState(isEmpty: Boolean) {
+
+        //Hide or show the empty state view
+        showEmptyState(isEmpty)
+
+        //change text to match the filter
+        if (isEmpty) {
+
+            var emptyStateText =
+                getString(R.string.no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task)
+
+            when (taskViewModel._filterState.value) {
+                FilterState.ALL -> {
+                    //do nothing, rely on the default
+                }
+
+                FilterState.PENDING -> {
+
+                }
+
+                FilterState.COMPLETED -> {
+
+                }
+
+                null -> {
+                    //do nothing, rely on the default
+                }
+            }
+
+            binding.emptyStateTextview.text = emptyStateText
+
+        }
+    }
+
+    fun showEmptyState(show: Boolean) {
+        if (show) {
+            binding.emptyStateTextview.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
+        } else {
+            binding.emptyStateTextview.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -141,7 +189,7 @@ class MainActivity : AppCompatActivity() {
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "TaskReminderWork",
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }

@@ -28,6 +28,15 @@
         tools:listitem="@layout/item_task"
         tools:itemCount="12"
         />
+    <TextView
+        android:id="@+id/empty_state_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
