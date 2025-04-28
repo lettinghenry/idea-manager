@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="fao_blue">#5792c9</color>
+    <color name="fao_dark_blue">#1C2E4A</color>
+    <color name="transparent_light_overlay">#0FFFFFFF</color>
+    <color name="transparent_dark_overlay">#0F000000</color>
+</resources>
