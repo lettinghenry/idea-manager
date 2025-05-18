@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -36,10 +37,27 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
+
+
+
 }
 
 dependencies {
+
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.runtime)
+    implementation( libs.androidx.ui)
+    implementation( libs.androidx.foundation)
+    implementation( libs.androidx.foundation.layout)
+    implementation( libs.androidx.material3)
+    implementation( libs.androidx.runtime.livedata)
+    implementation( libs.androidx.ui.tooling)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
