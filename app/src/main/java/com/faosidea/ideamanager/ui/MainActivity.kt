@@ -11,7 +11,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -198,4 +212,51 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+//TODO Compose
+@Composable
+fun MainScreen(modifier: Modifier = Modifier) {
 
+}
+
+@Composable
+fun TaskItem(
+    modifier: Modifier = Modifier,
+    taskName: String,
+    isCompleted: Boolean,
+    onCompletedChange: (Boolean) -> Unit
+) {
+    //item_task.txt
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Checkbox(
+            checked = isCompleted,
+            onCheckedChange = onCompletedChange
+        )
+        Text(
+            text = taskName,
+            fontSize = 18.sp,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun TaskItemPreview(modifier: Modifier = Modifier) {
+    //item_task.txt
+    MaterialTheme {
+        TaskItem(taskName = "Task Title", isCompleted = false, onCompletedChange = {})
+    }
+}
+
+@Composable
+fun TaskList(modifier: Modifier = Modifier) {
+    LazyColumn {
+
+    }
+}
