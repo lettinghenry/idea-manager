@@ -11,18 +11,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.TextFieldDecorator
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,14 +52,13 @@ import com.faosidea.ideamanager.ReminderWorker
 import com.faosidea.ideamanager.data.Task
 import com.faosidea.ideamanager.data.TaskViewModel
 import com.faosidea.ideamanager.databinding.ActivityMainBinding
+import com.faosidea.ideamanager.ui.theme.AndroidComposeTheme
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val taskViewModel: TaskViewModel by viewModels()
-    private lateinit var taskAdapter: TaskAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,23 +70,26 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.ic_filter_variant)
         supportActionBar?.title = getString(R.string.tasks)
 
-        // Initialize the adapter, initially with an empty list
-        taskAdapter = TaskAdapter(emptyList(), ::onTaskCheckedChange)
-        binding.recyclerView.adapter = taskAdapter
 
         binding.fab.setOnClickListener {
             // Handle FAB
             navigateToCreateTaskActivity()
         }
 
-
-        // Observe the tasks LiveData from the ViewModel
-        taskViewModel.filteredTasks.observe(this) { filteredList ->
-            taskAdapter.updateTasks(filteredList)
-
-            //empty view toggle
-            toggleEmptyState(filteredList.isEmpty())
+        //attaching composable
+        binding.mainScreenComposeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                MainScreen(
+                    viewModel = taskViewModel,
+                    onNavigateToTaskDetail = { task ->
+                        onTaskItemClick(task)
+                    }
+                )
+            }
         }
+
+        // Observe the tasks LiveData from the ViewModel - Handled by composable
 
         //create notification channel
         createNotificationChannel()
@@ -80,50 +98,6 @@ class MainActivity : AppCompatActivity() {
         scheduleReminderWorker()
     }
 
-    fun toggleEmptyState(isEmpty: Boolean) {
-
-        //Hide or show the empty state view
-        showEmptyState(isEmpty)
-
-        //change text to match the filter
-        if (isEmpty) {
-
-            var emptyStateText =
-                getString(R.string.no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task)
-
-            when (taskViewModel._filterState.value.toString()
-            ) {
-                FilterState.ALL.toString() -> {
-                    //do nothing, rely on the default
-                }
-
-                FilterState.PENDING.toString() -> {
-                    emptyStateText = getString(R.string.you_have_no_pending_tasks)
-                }
-
-                FilterState.COMPLETED.toString() -> {
-                    emptyStateText = getString(R.string.no_tasks_have_been_completed)
-                }
-
-                null -> {
-                    //do nothing, rely on the default
-                }
-            }
-
-            binding.emptyStateTextview.text = emptyStateText
-
-        }
-    }
-
-    fun showEmptyState(show: Boolean) {
-        if (show) {
-            binding.emptyStateTextview.visibility = View.VISIBLE
-            binding.recyclerView.visibility = View.GONE
-        } else {
-            binding.emptyStateTextview.visibility = View.GONE
-            binding.recyclerView.visibility = View.VISIBLE
-        }
-    }
 
     /**
      * function to perform task status change
@@ -210,12 +184,44 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    fun onTaskItemClick(task: Task) {
+        // Create an Intent to start the ViewEditActivity
+        val intent = Intent(this@MainActivity, ViewEditActivity::class.java)
+        intent.putExtra("TASK_ID", task.id)
+        startActivity(intent)
+    }
+
 }
 
-//TODO Compose
-@Composable
-fun MainScreen(modifier: Modifier = Modifier) {
 
+@OptIn(ExperimentalMaterial3Api::class) // If using Material 3 Experimental APIs
+@Composable
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    viewModel: TaskViewModel,
+    onNavigateToTaskDetail: (Task) -> Unit
+
+) {
+
+    val tasks by viewModel.filteredTasks.observeAsState(initial = emptyList())
+
+    AndroidComposeTheme {
+        Scaffold { paddingValues ->
+            TaskList(
+                tasks = tasks,
+                onTaskCheckedChange = { taskToUpdate,
+                                        newCompletionState ->
+                    viewModel.toggleTaskCompleted(taskToUpdate)
+
+                },
+                onTaskItemClick = { task ->
+                    onNavigateToTaskDetail(task)
+                },
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
+
+    }
 }
 
 @Composable
@@ -223,13 +229,15 @@ fun TaskItem(
     modifier: Modifier = Modifier,
     taskName: String,
     isCompleted: Boolean,
-    onCompletedChange: (Boolean) -> Unit
+    onCompletedChange: (Boolean) -> Unit,
+    onItemClick: () -> Unit
 ) {
     //item_task.txt
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(14.dp)
+            .clickable(onClick = onItemClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -240,7 +248,8 @@ fun TaskItem(
         Text(
             text = taskName,
             fontSize = 18.sp,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            style = if (isCompleted) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle.Default
         )
     }
 }
@@ -250,13 +259,103 @@ fun TaskItem(
 fun TaskItemPreview(modifier: Modifier = Modifier) {
     //item_task.txt
     MaterialTheme {
-        TaskItem(taskName = "Task Title", isCompleted = false, onCompletedChange = {})
+        TaskItem(
+            taskName = "Task Title",
+            isCompleted = false,
+            onCompletedChange = {},
+            onItemClick = {})
     }
 }
 
 @Composable
-fun TaskList(modifier: Modifier = Modifier) {
-    LazyColumn {
+fun TaskList(
+    tasks: List<Task>,
+    onTaskCheckedChange: (Task, Boolean) -> Unit,
+    onTaskItemClick: (Task) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (tasks.isEmpty()) {
+        //Display a message when the list is empty
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.no_tasks_yet_n_nclick_on_the_button_nto_add_a_new_task),
+                fontSize = 18.sp
 
+            )
+        }
+
+    } else {
+        LazyColumn(modifier = modifier) {
+            items(items = tasks, key = { task -> task.id }) { task ->
+
+                TaskItem(
+                    taskName = task.title,
+                    isCompleted = task.isCompleted,
+                    onCompletedChange = { isNowCompleted ->
+                        onTaskCheckedChange(
+                            task,
+                            isNowCompleted
+                        )
+                    },
+                    onItemClick = { onTaskItemClick(task) }
+                )
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+            }
+        }
+    }
+}
+
+// Preview for your TaskList
+@Preview(showBackground = true)
+@Composable
+fun TaskListPreview() {
+    // Sample data for the preview
+    val sampleTasks = listOf(
+        Task(
+            id = 1,
+            title = "Grocery Shopping",
+            description = "",
+            dueDate = 0L,
+            isCompleted = false
+        ),
+        Task(
+            id = 2,
+            title = "Book Doctor Appointment",
+            description = "",
+            dueDate = 0L,
+            isCompleted = true
+        ),
+        Task(
+            id = 3,
+            title = "Work on Compose Project",
+            description = "",
+            dueDate = 0L,
+            isCompleted = false
+        )
+    )
+    MaterialTheme {
+        TaskList(
+            tasks = sampleTasks,
+            onTaskCheckedChange = { task, isChecked ->
+                println("Preview: Task '${task.title}' checked: $isChecked")
+            },
+            onTaskItemClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EmptyTaskListPreview() {
+    MaterialTheme {
+        TaskList(
+            tasks = emptyList(),
+            onTaskCheckedChange = { _, _ -> },
+            onTaskItemClick = {}
+        )
     }
 }
